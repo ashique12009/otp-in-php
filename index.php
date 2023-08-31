@@ -62,9 +62,9 @@ include('header.php');
                         }
                         ?>
                         <form action="" method="post" class="otp-form">
-                            <input type="text" name="otp" id="otp" placeholder="OTP">
+                            <input type="text" name="otp" id="otp" placeholder="OTP" value="">
                             <br><br>
-                            <input type="submit" value="Enter OTP" name="otp">
+                            <input type="submit" value="Enter OTP" name="submit_otp">
                         </form>
                         <?php 
                     }
@@ -74,10 +74,18 @@ include('header.php');
                 }
             }
 
-            if (isset($_POST['otp'])) {
+            if (isset($_POST['submit_otp'])) {
                 if ($_POST['otp'] != "") {
-
-                    header('Location: home.php');
+                    $otp = $_POST['otp'];
+                    $loginObject = new Login($databaseConnection);
+                    if ($loginObject->checkOTPIsExpired($otp)) {
+                        // This OTP is not expired so update the Database and redirect to home page
+                        $loginObject->expireOTP($otp);
+                        header('Location: home.php');
+                    }
+                    else {
+                        echo 'OTP is expired!';
+                    }
                 }
             }
         ?>

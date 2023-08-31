@@ -59,4 +59,47 @@ class Login
             return false;
         }
     }
+
+    function checkOTPIsExpired($otp)
+    {
+        $query = "SELECT
+                    email 
+                FROM
+                    " . $this->otp_table . "
+                WHERE
+                    otp = :otp AND is_expired = 0
+                LIMIT
+                    0,1";
+
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':otp', $otp);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function expireOTP($otp)
+    {
+        $query = "UPDATE
+                    " . $this->otp_table . "
+                SET
+                    is_expired = 1 
+                WHERE
+                    otp = :otp";
+
+        $stmt = $this->connection->prepare($query);
+
+        // Posted values
+        $otp = htmlspecialchars(strip_tags($otp));
+
+        // Bind parameters
+        $stmt->bindParam(':otp', $otp);
+
+        // Execute the query
+        if ($stmt->execute())
+        {
+            return true;
+        }
+        return false;
+    }
 }
