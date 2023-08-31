@@ -4,12 +4,7 @@ require_once 'includes/config/Database.class.php';
 require_once 'includes/config/CreateTable.class.php';
 require_once 'includes/Register.class.php';
 require_once 'includes/Login.class.php';
-require_once 'PHPMailer/src/Exception.php';
-require_once 'PHPMailer/src/PHPMailer.php';
-require_once 'PHPMailer/src/SMTP.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+require_once 'mail_functions.php';
 
 $databaseObject     = new Database();
 $databaseConnection = $databaseObject->getConnection();
@@ -56,38 +51,15 @@ include('header.php');
                     $loginObject = new Login($databaseConnection);
                     if ($loginObject->checkUser($_POST['email'])) {
                         $email = $_POST['email'];
-                        $phpmailer = new PHPMailer(true);
-                        try {
-                            // Server settings
-                            $phpmailer = new PHPMailer();
-                            $phpmailer->isSMTP();
-                            $phpmailer->Host = 'sandbox.smtp.mailtrap.io';
-                            $phpmailer->SMTPAuth = true;
-                            $phpmailer->Port = 2525;
-                            $phpmailer->Username = '8c47d5a7abace5';
-                            $phpmailer->Password = '7b69ef42c5e37e';
-                            // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-                        
-                            // Recipients
-                            $phpmailer->setFrom('ashique-otp@local.com', 'Ashique OTP');
-                            $phpmailer->addAddress('ashique12009@yahoo.com', 'Ashique User');     // Add a recipient
-                            $phpmailer->addReplyTo('info@example.com', 'Information');
-                            $phpmailer->addCC('cc@example.com');
-                            $phpmailer->addBCC('bcc@example.com');
-                        
-                            // Content
-                            $phpmailer->isHTML(true);                                  // Set email format to HTML
-                            $phpmailer->Subject = 'Take your OTP';
-                            $phpmailer->Body    = 'Your OTP is: ';
-                            $phpmailer->AltBody = 'Your OTP is: ';
-                        
-                            $phpmailer->send();
-                            echo 'OTP has been sent to your email';
-                        } 
-                        catch (Exception $e) {
-                            echo 'Email failed';
-                        }
+                        // Generate OTP
+                        $otp = rand(1000, 9999);
 
+                        // Send OTP to user email
+                        if (sendOTP($otp)) {
+                            // Insert generated OTP to Database
+                            $loginObject->insertOTP($email, $otp);
+                            echo 'OTP has been sent to your email';
+                        }
                         ?>
                         <form action="" method="post" class="otp-form">
                             <input type="text" name="otp" id="otp" placeholder="OTP">
@@ -104,9 +76,8 @@ include('header.php');
 
             if (isset($_POST['otp'])) {
                 if ($_POST['otp'] != "") {
-                    
 
-
+                    header('Location: home.php');
                 }
             }
         ?>
