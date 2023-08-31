@@ -15,10 +15,11 @@ class CreateTable
             `id` int(11) NOT NULL AUTO_INCREMENT,
             `email` varchar(32) NOT NULL,
             `otp` varchar(32) NOT NULL,
-            `created` datetime NOT NULL,
-            `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            `is_expired` boolean NOT NULL DEFAULT 0,
+            `created_at` datetime NOT NULL,
+            `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
         if ($this->dbConnection->query($sqlProductTable) === FALSE)
         {
@@ -29,9 +30,10 @@ class CreateTable
             `id` int(11) NOT NULL AUTO_INCREMENT,
             `email` varchar(255) NOT NULL,
             `password` varchar(255) NOT NULL,
+            `created_at` datetime NOT NULL,
             `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
         if ($this->dbConnection->query($sqlCategoryTable) === FALSE)
         {

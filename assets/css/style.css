@@ -1,0 +1,16 @@
+#login-register-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: monospace;
+}
+
+#login-register-form .forms{
+    width: 500px;
+    height: 500px;
+    background-color: #d1e8ff;
+    padding-left: 10px;
+    margin: 5px;
+    text-align: center;
+}
