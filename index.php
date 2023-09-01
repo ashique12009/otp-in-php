@@ -43,7 +43,7 @@ include('header.php');
         <form action="" method="post">
             <input type="email" name="email" id="email" placeholder="Email" class="form-control-text">
             <br><br>
-            <input type="submit" value="Enter email to send OTP" name="login" class="form-control-button">
+            <input type="submit" value="Send OTP" name="login" class="form-control-button">
         </form>
         <?php 
             if (isset($_POST['login'])) {
@@ -75,7 +75,7 @@ include('header.php');
             <form action="" method="post" class="otp-form">
                 <input type="text" name="otp" id="otp" placeholder="OTP" value="" class="form-control-text">
                 <br><br>
-                <input type="submit" value="Enter OTP" name="submit_otp" class="form-control-button">
+                <input type="submit" value="Login" name="submit_otp" class="form-control-button">
             </form>
 
             <?php
