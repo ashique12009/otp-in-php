@@ -18,3 +18,18 @@
 .otp-form{
     margin-top: 10px;
 }
+
+.forms .form-control-text{
+    width: 80%;
+    padding: 10px 0;
+    padding-left: 5px;
+}
+
+.forms .form-control-button{
+    width: 80%;
+    background-color: #55ae50;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 0;
+    border: none;
+}

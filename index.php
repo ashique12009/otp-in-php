@@ -18,11 +18,11 @@ include('header.php');
     <div class="forms">
         <h1>Registration</h1>
         <form action="" method="post">
-            <input type="email" name="email" id="email" placeholder="Email">
+            <input type="email" name="email" id="email" placeholder="Email" class="form-control-text">
             <br><br>
-            <input type="password" name="password" id="password" placeholder="Password">
+            <input type="password" name="password" id="password" placeholder="Password" class="form-control-text">
             <br><br>
-            <input type="submit" value="Register" name="register">
+            <input type="submit" value="Register" name="register" class="form-control-button">
         </form>
         <?php 
             if (isset($_POST['register'])) {
@@ -41,9 +41,9 @@ include('header.php');
     <div class="forms">
         <h1>Login</h1>
         <form action="" method="post">
-            <input type="email" name="email" id="email" placeholder="Email">
+            <input type="email" name="email" id="email" placeholder="Email" class="form-control-text">
             <br><br>
-            <input type="submit" value="Enter email to send OTP" name="login">
+            <input type="submit" value="Enter email to send OTP" name="login" class="form-control-button">
         </form>
         <?php 
             if (isset($_POST['login'])) {
@@ -59,20 +59,26 @@ include('header.php');
                             // Insert generated OTP to Database
                             $loginObject->insertOTP($email, $otp);
                             echo 'OTP has been sent to your email';
-                        }
-                        ?>
-                        <form action="" method="post" class="otp-form">
-                            <input type="text" name="otp" id="otp" placeholder="OTP" value="">
-                            <br><br>
-                            <input type="submit" value="Enter OTP" name="submit_otp">
-                        </form>
-                        <?php 
+                        } 
+                    }
+                    else {
+                        echo "Email not found!";
                     }
                 }
                 else {
-                    echo "Login fail!";
+                    echo "Sending OTP fail!";
                 }
             }
+
+            ?>
+
+            <form action="" method="post" class="otp-form">
+                <input type="text" name="otp" id="otp" placeholder="OTP" value="" class="form-control-text">
+                <br><br>
+                <input type="submit" value="Enter OTP" name="submit_otp" class="form-control-button">
+            </form>
+
+            <?php
 
             if (isset($_POST['submit_otp'])) {
                 if ($_POST['otp'] != "") {
@@ -86,6 +92,9 @@ include('header.php');
                     else {
                         echo 'OTP is expired!';
                     }
+                }
+                else {
+                    echo 'OTP is empty!';
                 }
             }
         ?>
