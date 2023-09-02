@@ -67,7 +67,11 @@ class Login
                 FROM
                     " . $this->otp_table . "
                 WHERE
-                    otp = :otp AND is_expired = 0
+                    otp = :otp 
+                    AND 
+                    is_expired = 0 
+                    AND 
+                    NOW() <= DATE_ADD(created_at, INTERVAL 24 HOUR)
                 LIMIT
                     0,1";
 
